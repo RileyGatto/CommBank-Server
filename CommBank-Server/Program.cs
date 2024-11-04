@@ -28,6 +28,8 @@ builder.Services.AddSingleton(tagsService);
 builder.Services.AddSingleton(transactionsService);
 builder.Services.AddSingleton(usersService);
 
+builder.Services.AddSingleton<DatabaseSeeder>(new DatabaseSeeder(mongoDatabase));
+
 builder.Services.AddCors();
 
 var app = builder.Build();
@@ -47,7 +49,17 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+// Seed the database on application startup
+/*
+using (var scope = app.Services.CreateScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<DatabaseSeeder>();
+    string folderPath = Path.Combine(AppContext.BaseDirectory, "Data", "SeedFiles");
+    await seeder.SeedDatabaseFromJsonFilesAsync(folderPath);
+}
+*/
 app.MapControllers();
 
 app.Run();
+
 
