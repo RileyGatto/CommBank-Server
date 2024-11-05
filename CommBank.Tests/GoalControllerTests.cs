@@ -31,6 +31,7 @@ public class GoalControllerTests
         var result = await controller.Get();
 
         // Assert
+        Assert.NotNull(result);
         var index = 0;
         foreach (Goal goal in result)
         {
